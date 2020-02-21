@@ -1,0 +1,5 @@
+node_modules
+.idea
+categories.json
+items.json
+locations.json
