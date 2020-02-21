@@ -49,7 +49,7 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/', upload.single('image'), async (req, res) => {
 
-    if (req.body.item === '' || req.body.category === '' || req.body.location === '') {
+    if (req.body.category === '') {
         res.status(400).send({"error": "Error"})
     } else {
         const category = req.body;

@@ -47,7 +47,7 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/', upload.single('image'), async (req, res) => {
 
-    if (req.body.item === '' || req.body.category === '' || req.body.location === '') {
+    if (req.body.item === '' || req.body.category_id === '' || req.body.location_id === '') {
         res.status(400).send({"error": "Error"})
     } else {
         const item = req.body;
@@ -59,6 +59,25 @@ router.post('/', upload.single('image'), async (req, res) => {
         await fileDb.addItem(item);
         res.send(req.body.id);
     }
+});
+
+router.put('/:id', upload.single('image'), async (req, res) => {
+    const itemData = req.body;
+    let itemId = await fileDb.getItemById(req.params.id);
+
+    if (!itemId) {
+        return res.status(404).send({"Error": "Item not found!"})
+    }
+
+    itemId = {...itemId, ...itemData};
+
+    if (req.file) {
+        itemId.image = req.file.filename;
+    }
+
+    await fileDb.editItem(itemId);
+
+    res.send(itemId);
 });
 
 module.exports = router;

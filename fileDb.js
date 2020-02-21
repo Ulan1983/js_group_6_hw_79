@@ -111,6 +111,11 @@ module.exports = {
       }
     }
   },
+  async editItem(item) {
+    const itemIndex = data.findIndex(i => i.id === item.id);
+    data[itemIndex] = item;
+    await this.save();
+  },
   async save() {
     const fileContents = JSON.stringify(data, null, 2);
     await writeFile(filename, fileContents);
